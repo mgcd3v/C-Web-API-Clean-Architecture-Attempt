@@ -15,11 +15,15 @@ namespace Application.Services
         protected readonly IHttpContextAccessor _httpContextAccessor;
         protected readonly IMapper _mapper;
 
+        protected readonly IEmailService _emailService;
+
         protected readonly ICmbRepository _cmbRepository;
-        public CmbService(IHttpContextAccessor httpContextAccessor, IMapper mapper, ICmbRepository cmbRepository)
+        public CmbService(IHttpContextAccessor httpContextAccessor, IMapper mapper, IEmailService emailService, ICmbRepository cmbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+
+            _emailService = emailService;
 
             _cmbRepository = cmbRepository;
         }
@@ -69,6 +73,9 @@ namespace Application.Services
 
         public async Task<IActionResult> Update(int id, UpdateCmbRequest request)
         {
+            // Send test
+            await _emailService.SendVerificationCode("user@email.com", "1111", new EmailSetting { });
+
             var cmb = await _cmbRepository.GetAsync(id);
 
             if (cmb != null)
