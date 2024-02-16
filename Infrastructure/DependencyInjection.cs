@@ -4,6 +4,7 @@ using Domain.Interfaces.Repositories;
 using dotenv.net;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +60,8 @@ namespace Infrastructure
                                 .AllowAnyMethod();
                       });
             });
+
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<ICmbRepository, CmbRepository>();
 
